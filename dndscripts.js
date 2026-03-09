@@ -28,6 +28,10 @@ on("chat:message", async function(msg) {
         case "!resetsize":
             await resetSize(msg);
             break;
+        case "!debug-token":
+            let token = await getToken(msg);
+            log(token);
+            break;
         default:
             break;
 
@@ -45,19 +49,28 @@ function getDefaultTokenAsync(charObj) {
 // ===== Helper: clone token properties =====
 function cloneTokenProps(token) {
     const keys = [
-        "pageid","layer","left","top","width","height","rotation",
-        "flipv","fliph","name","showname","bar1_value","bar1_max",
-        "bar2_value","bar2_max","bar3_value","bar3_max",
-        "bar1_link","bar2_link","bar3_link",
-        "aura1_radius","aura1_color","aura1_square",
-        "aura2_radius","aura2_color","aura2_square",
-        "tint_color","statusmarkers","showplayers_name",
-        "showplayers_bar1","showplayers_bar2","showplayers_bar3",
-        "showplayers_aura1","showplayers_aura2",
-        "light_radius","light_dimradius","light_angle",
-        "light_otherplayers","light_hassight","light_losangle",
-        "lastmove","controlledby"
-    ];
+         "pageid","layer","left","top","width","height","rotation",
+         "flipv","fliph","name","showname","bar1_value","bar1_max",
+         "bar2_value","bar2_max","bar3_value","bar3_max",
+         "bar1_link","bar2_link","bar3_link",
+         "aura1_radius","aura1_color","aura1_square",
+         "aura2_radius","aura2_color","aura2_square",
+         "tint_color","statusmarkers","showplayers_name",
+         "showplayers_bar1","showplayers_bar2","showplayers_bar3",
+         "showplayers_aura1","showplayers_aura2",
+         "light_otherplayers","light_hassight","light_losangle",
+         "lastmove","controlledby", "light_radius", "light_dimradius",
+         "light_angle", "light_multiplier", "adv_fow_view_distance", "sides", "currentSide",
+         "has_bright_light_vision", "has_night_vision", "night_vision_tint",
+         "night_vision_distance", "emits_bright_light", "bright_light_distance",
+         "emits_low_light", "low_light_distance", "has_limit_field_of_vision",
+         "limit_field_of_vision_center", "limit_field_of_vision_total",
+         "has_limit_field_of_night_vision", "limit_field_of_night_vision_center", "limit_field_of_night_vision_total",
+         "has_directional_bright_light", "directional_bright_light_total", "directional_bright_light_center",
+         "has_directional_dim_light", "directional_dim_light_total",
+         "directional_dim_light_center", "light_sensitivity_multiplier",
+         "night_vision_effect", "dim_light_opacity" 
+     ];
     let props = {};
     keys.forEach(k => props[k] = token.get(k));
     return props;
@@ -82,8 +95,9 @@ async function getToken(msg, selectedId = null) {
     let tokenIsControlledBy = token.get("controlledby");
     let allowedControl = isGm;
     if (!allowedControl) {
-        for (let controlledBy of tokenIsControlledBy) {
-            if (controlledBy === msg.playerId) {
+        let controlledByArray = Array.isArray(tokenIsControlledBy) ? tokenIsControlledBy : [tokenIsControlledBy];
+        for (let controlledBy of controlledByArray) {
+            if (controlledBy === msg.playerid) {
                 allowedControl = true;
                 break;
             }
