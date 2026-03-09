@@ -91,22 +91,22 @@ async function getToken(msg, selectedId = null) {
         return false;
     }
 
-    let isGm = playerIsGM(msg.playerid);
-    let tokenIsControlledBy = token.get("controlledby");
-    let allowedControl = isGm;
-    if (!allowedControl) {
-        let controlledByArray = Array.isArray(tokenIsControlledBy) ? tokenIsControlledBy : [tokenIsControlledBy];
-        for (let controlledBy of controlledByArray) {
-            if (controlledBy === msg.playerid) {
-                allowedControl = true;
-                break;
-            }
-        }
-    }
-    if (!allowedControl) {
-        sendChat("WildShape", "/w " + msg.who + " You do not have permission to use this token.");
-        return null;
-    }
+    // let isGm = playerIsGM(msg.playerid);
+    // let tokenIsControlledBy = token.get("controlledby");
+    // let allowedControl = isGm;
+    // if (!allowedControl) {
+    //     let controlledByArray = Array.isArray(tokenIsControlledBy) ? tokenIsControlledBy : [tokenIsControlledBy];
+    //     for (let controlledBy of controlledByArray) {
+    //         if (controlledBy === msg.playerid) {
+    //             allowedControl = true;
+    //             break;
+    //         }
+    //     }
+    // }
+    // if (!allowedControl) {
+    //     sendChat("WildShape", "/w " + msg.who + " You do not have permission to use this token.");
+    //     return null;
+    // }
     return token;
 }
 
