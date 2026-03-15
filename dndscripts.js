@@ -60,25 +60,8 @@ async function getToken(msg, selectedId = null) {
         return false;
     }
 
-    // let isGm = playerIsGM(msg.playerid);
-    // let tokenIsControlledBy = token.get("controlledby");
-    // let allowedControl = isGm;
-    // if (!allowedControl) {
-    //     let controlledByArray = Array.isArray(tokenIsControlledBy) ? tokenIsControlledBy : [tokenIsControlledBy];
-    //     for (let controlledBy of controlledByArray) {
-    //         if (controlledBy === msg.playerid) {
-    //             allowedControl = true;
-    //             break;
-    //         }
-    //     }
-    // }
-    // if (!allowedControl) {
-    //     sendChat("WildShape", "/w " + msg.who + " You do not have permission to use this token.");
-    //     return null;
-    // }
     return token;
 }
-
 
 
 
@@ -334,10 +317,10 @@ async function adjustSize(msg, args) {
         sendChat("TokenSetup", "/w " + msg.who + " Invalid arguments. Usage: !adjustsize <T,S,M,L,H,G>");
         return;
     }
-    
+
     let width = 70;
     let height = 70;
-    
+
     switch (args[1].toLowerCase()) {
         case "t":
             width = 18;
@@ -370,20 +353,20 @@ async function adjustSize(msg, args) {
         default:
             break;
     }
-    
-    
-    
+
+
+
     for (const sel of msg.selected) {
 
         let token = await getToken(msg, sel._id);
         if (!token) continue;
 
-        
+
         token.set({
             width: width,
             height: height
         });
-        
+
     }
 
 }
@@ -404,11 +387,10 @@ async function resetSize(msg) {
         sendChat("Adjustsize", `/w ${msg.who} ERROR: Default token for '${pc.get("name")}' is corrupted.`);
         return;
     }
-    
+
     wsToken.set({
         width: dt.width,
         height: dt.height
     });
-    
-}
 
+}
