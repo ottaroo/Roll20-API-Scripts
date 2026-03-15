@@ -93,10 +93,15 @@ It sets the following attributes:
   this will allow players to edit their first aura on the token.  
 * `playersedit_aura2: true`  
   this will allow players to edit their second aura on the token.  
+* `has_bright_light_vision: true`  
+  this will turn on bright light vision for the token.  
+* `has_night_vision: true`  
+  this will turn on night vision for the token if it has any darkvision.  
+* `night_vision_distance: <darkvision>`  
+  this will set the night vision distance to the character's darkvision value.  
 
 The GM must complete the setup of the token:  
-The GM will need to update `Token Vision` under `Dyanmic Lighting` manually.  
-It did not seem to work correctly at the moment by just updating these values from the script.  
+The GM might need to update other `Dynamic Lighting` settings manually.  
 When all values are set, the GM can click `Update Default Token` under `Details` to save all the changes for future use of the token.  
 Now every time the GM or the players add the token to the map, the token will be ready to use.  
 
