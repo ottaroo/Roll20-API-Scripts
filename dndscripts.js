@@ -265,9 +265,9 @@ async function fixToken(msg) {
             playersedit_aura1: true,
             playersedit_aura2: true,
 
-//            light_hassight: true,
-//            has_night_vision: darkvision > 0,
-//            night_vision_distance: darkvision
+            has_bright_light_vision: true,
+            has_night_vision: darkvision > 0,
+            night_vision_distance: darkvision
 
         });
 
