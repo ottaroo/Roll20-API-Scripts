@@ -147,17 +147,15 @@ async function cancelWildShape(msg)
         return;
     }
 
-    // --- Clone token props ---
-    let props = cloneTokenProps(wsToken);
-    props.represents = pc.id;
-    props.imgsrc = dt.imgsrc;
-    props.width = dt.width || wsToken.get("width");
-    props.height = dt.height || wsToken.get("height");
+    wsToken.set({
 
-    // --- Create new token ---
-    createObj("graphic", props);
+        imgsrc: dt.imgsrc,
+        width: dt.width,
+        height: dt.height
+
+    });
+
     sendChat("WildShape", `/em transforms back into ${pc.get("name")}!`);
-    wsToken.remove();
 }
 
 async function shiftWildShape(msg, args) {
@@ -188,23 +186,23 @@ async function shiftWildShape(msg, args) {
 
 
 
-async function performWildShapeShift(pcChar, npcChar, oldToken, who) {
+async function performWildShapeShift(pcChar, npcChar, token, who) {
 
     const pcId = pcChar.id;
     const npcId = npcChar.id;
 
 
     // --- Get default token ---
-    const defaultTokenJSON = await getDefaultTokenAsync(npcChar);
+    const npcTokenJSON = await getDefaultTokenAsync(npcChar);
 
-    if (!defaultTokenJSON) {
+    if (!npcTokenJSON) {
         sendChat("WildShape", `/w ${who} ERROR: NPC '${npcChar.get("name")}' has no default token.`);
         return;
     }
 
     let dt;
     try {
-        dt = JSON.parse(defaultTokenJSON);
+        dt = JSON.parse(npcTokenJSON);
     } catch {
         sendChat("WildShape", `/w ${who} ERROR: Default token for '${npcChar.get("name")}' is corrupted.`);
         return;
@@ -215,19 +213,15 @@ async function performWildShapeShift(pcChar, npcChar, oldToken, who) {
         return;
     }
 
-    // --- Clone token props ---
-    let props = cloneTokenProps(oldToken);
-    props.represents = pcId;
-    props.imgsrc = dt.imgsrc;
-    props.width = dt.width || oldToken.get("width");
-    props.height = dt.height || oldToken.get("height");
+    token.set({
 
-    // --- Create new token ---
-    createObj("graphic", props);
+        imgsrc: dt.imgsrc,
+        width: dt.width,
+        height: dt.height
+
+    });
 
     sendChat("WildShape", `/em transforms into ${npcChar.get("name")}!`);
-
-    oldToken.remove();
 }
 
 async function fixToken(msg) {
